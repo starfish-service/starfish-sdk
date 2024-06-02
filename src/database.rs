@@ -25,6 +25,8 @@ pub async fn ins(key: Option<&str>) -> Pool<Any> {
 }
 
 pub async fn init(conf: &Config, key: Option<&str>) -> Result<()> {
+	sqlx::any::install_default_drivers();
+
 	let dns = format!(
 		"{}://{}:{}@{}:{}/{}",
 		conf.drive, conf.username, conf.password, conf.hostname, conf.port, conf.database
