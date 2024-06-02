@@ -1,4 +1,4 @@
-pub mod config;
+pub mod app_config;
 pub mod logger;
 pub mod preclude;
 
