@@ -1,11 +1,8 @@
 use anyhow::Result;
 
-pub fn init<T, D, DK, DV>(name: Option<&str>, defaults: Option<D>) -> Result<T>
+pub fn init<T>(name: Option<&str>, defaults: Option<Vec<(&str, config::Value)>>) -> Result<T>
 where
 	T: Sized + for<'a> serde::Deserialize<'a>,
-	D: IntoIterator<Item = (DK, DV)>,
-	DK: AsRef<str>,
-	DV: Into<config::Value>,
 {
 	let mut settings = config::Config::builder()
 		.add_source(config::File::with_name(name.unwrap_or("config")).required(false))
