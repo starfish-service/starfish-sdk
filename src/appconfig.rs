@@ -1,6 +1,6 @@
 use anyhow::Result;
 
-pub fn init<T, D, DK, DV>(name: Option<&str>, defaults: D) -> Result<T>
+pub fn init<T, D, DK, DV>(name: Option<&str>, defaults: Option<D>) -> Result<T>
 where
 	T: Sized + for<'a> serde::Deserialize<'a>,
 	D: IntoIterator<Item = (DK, DV)>,
@@ -16,8 +16,10 @@ where
 				.list_separator(" "),
 		);
 
-	for (key, value) in defaults {
-		settings = settings.set_default(key, value)?;
+	if let Some(defaults) = defaults {
+		for (key, value) in defaults {
+			settings = settings.set_default(key, value)?;
+		}
 	}
 
 	let settings = settings.build()?;
